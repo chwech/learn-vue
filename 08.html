@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>比较计算属性与$watch()方法</title>
+</head>
+<body>
+<div id="demo">{{ fullName }}</div>
+<div id="demo1">{{ fullName }}</div>
+<script src="test.js"></script>
+<script>
+    var vm = new Vue({
+        el: '#demo',
+        data: {
+            firstName: 'boo',
+            lastName: 'foo',
+            fullName: 'boo foo'
+        },
+        watch: {
+            firstName: function(val){
+                this.fullName = val + ' ' + this.lastName ;
+            },
+
+            lastName: function(val){
+                this.fullName = this.firstName + ' ' + val;
+            }
+        }
+    });
+    var vm1 = new Vue({
+        el: '#demo1',
+        data: {
+            firstName: 'boo',
+            lastName: 'foo'
+        },
+        computed: {
+            fullName: function(){
+                return this.firstName + ' ' + this.lastName;
+            }
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <p>Original message: {{ message }}</p>
+    <p>Computed reversed message: {{ reversemessage }}</p>
+</div>
+
+<div id="app1">{{ fullName }}</div>
+
+<div id="app2">
+    <button v-on:click="count">增加1</button>
+    <p>这个按钮你点击了{{ counter }}次</p>
+</div>
+
+<div id="app3">
+    <input type="text" v-model="message" placeholder="输入一点东西">
+    <p>你输入的是：{{ message }}</p>
+</div>
+<script src="test.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: 'hello'
+        },
+        //计算属性。
+        computed: {
+            reversemessage: function(){
+                //this指向vue实例
+                return this.message.split('').reverse().join('')
+            }
+        }
+    });
+
+    app.message = 'goodbye';
+    console.log(app.reversemessage);
+
+    //计算属性 vs $watch()方法
+//    var app1 = new Vue({
+//        el: '#app1',
+//        data: {
+//            firstName: 'foo',
+//            lastName: 'bar',
+//            fullName: 'foo bar'
+//        },
+//        watch: {
+//            firstName: function(val){
+//                this.fullName = val + ' ' + this.lastName
+//            },
+//            lastName: function(val){
+//                this.fullName = this.firstName + ' ' + val
+//            }
+//        }
+//    });
+
+    var app1 = new Vue({
+       el: '#app1',
+       data: {
+           firstName: 'chen',
+           lastName: 'weicheng'
+       } ,
+       computed: {
+           fullName: function(){
+               return this.firstName + ' ' + this.lastName;
+           }
+       }
+    });
+
+    var app2 = new Vue({
+        el: '#app2',
+        data: {
+            counter : 0
+        },
+        methods: {
+            count: function(e){
+                this.counter += 1;
+                console.log(e.target.tagName);
+            }
+        }
+    });
+
+    var app3 = new Vue({
+        el: '#app3',
+        data: {
+            message: ''
+        }
+    })
+</script>
+</body>
+</html>

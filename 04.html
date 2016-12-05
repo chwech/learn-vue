@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用组件构建应用</title>
+</head>
+<body>
+<ul id = 'app2'>
+    <todo-item v-for="item in todos" v-bind:todo="item"></todo-item>
+</ul>
+<script src="test.js"></script>
+<script>
+    Vue.component('todo-item',{
+        props: ['todo'],
+        template: '<li>{{ todo.text }}</li>'
+    });
+    var app2 = new Vue({
+        el: '#app2',
+        data: {
+            todos: [
+                {text: 1},
+                {text: 2},
+                {text: 3}
+            ]
+        }
+    })
+</script>
+</body>
+</html>

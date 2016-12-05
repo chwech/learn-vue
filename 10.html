@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>绑定style</title>
+</head>
+<body>
+<!--对象语法-->
+<div id="app" v-bind:style="{color: fontColor, 'font-size': fontSize + 'px'}">test</div>
+<div id="app1" v-bind:style="styleObject">test1</div>
+<!--数组语法 -->
+<div id="app2" v-bind:style="[styleObject, resetObject]">test2</div>
+<script src="test.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            fontColor: 'red',
+            fontSize: 30
+        }
+    });
+    var app1 = new Vue({
+        el: '#app1',
+        data: {
+            styleObject: {
+                color: 'red',
+                fontSize: 30 + 'px'
+            }
+        }
+    });
+    var app2 = new Vue({
+        el: '#app2',
+        data: {
+            styleObject: {
+                color: 'red'
+            },
+            resetObject: {
+                fontSize: 30 + 'px'
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue实例</title>
+</head>
+<body>
+<div id="app">
+    {{ message }}
+</div>
+<script src="test.js"></script>
+<script>
+    var data = {
+        message: '所有的Vue实例都会代理data对象的属性'
+    };
+    var vm = new Vue({
+        el: '#app',
+        data: data
+    });
+
+    console.log(vm.message === data.message);//true
+
+    data.message = '每个Vue实例都会代理data对象的属性';
+    console.log(vm.message);//每个Vue实例都会代理data对象的属性
+
+    vm.message = '每个Vue实例都会代理data对象的属性,且只有这些被代理的属性是响应的';
+    console.log(data.message);//每个Vue实例都会代理data对象的属性,且只有这些被代理的属性是响应的
+
+    console.log(vm.$data === data);//true
+    console.log(vm.$data.message === data.message);//true
+
+    console.log(vm.$el === document.getElementById('app'));//true
+
+    vm.$watch('message', function(newValue, oldValue){
+        //回调函数将在vm.message改变后执行。
+        console.log('你改变了message的值');
+        console.log(oldValue);
+        console.log(newValue);
+    });
+</script>
+</body>
+</html>

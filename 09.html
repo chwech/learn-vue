@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>绑定class</title>
+</head>
+<body>
+<!--对象语法-->
+<div id="app" v-bind:class="{active: isActive, 'text-danger': hasError}" class="clearfix"></div>
+<!--app 与 app1 是等价的-->
+<div id="app1" v-bind:class="classObject" class="clearfix"></div>
+<!--数组语法-->
+<div id="app2" v-bind:class="[class1, class2]"></div>
+<!--对象语法与数组语法混用。-->
+<div id="app3" v-bind:class="[ { active: class1 }, class2]"></div>
+<script src="test.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            isActive: true,
+            hasError: false
+        }
+    });
+    var app1 = new Vue({
+        el: '#app1',
+        data: {
+            classObject: {
+                active: true,
+                'text-danger': false
+            }
+        }
+    });
+    var app2 = new Vue({
+        el: '#app2',
+        data: {
+            class1: 'active',
+            class2: 'text-danger'
+        }
+    });
+    var app3 = new Vue({
+        el: '#app3',
+        data: {
+            class1: true,
+            class2: 'text-danger'
+        }
+    })
+</script>
+</body>
+</html>

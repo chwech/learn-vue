@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<div id="app">
+    {{ message }}
+</div>
+
+<div id="app-2">
+    <span v-bind:title="message">
+        Hover your mouse over me for a few seconds to see my dynamically bound title!
+    </span>
+</div>
+
+<div id = "app-3">
+    <p v-if="seen">Now you see me</p>
+</div>
+
+<div id="app-4">
+    <ol>
+        <li v-for = "todo in todos">
+            {{ todo.text }}
+        </li>
+    </ol>
+</div>
+
+<div id="app-5">
+    <p>{{ message }}</p>
+    <button v-on:click="reverseMessage">Reverse Message</button>
+</div>
+
+<div id="app-6">
+    <p>{{ message }}</p>
+    <input type="text" v-model="message">
+</div>
+
+<ul id="app-7">
+    <todo-item v-bind:todo="todo" v-for="todo in todos"></todo-item>
+</ul>
+
+<div id="app-8">
+    <my-component></my-component>
+</div>
+
+<div id="example">{{ b }}</div>
+
+<div id="app8" v-html="vhtml"></div>
+<script src="test.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: "hello world"
+        }
+    });
+
+    var app2 = new Vue({
+        el:'#app-2',
+        data: {
+            message: 'You loaded this page on ' + new Date()
+        }
+    });
+
+    var app3 = new Vue({
+        el: '#app-3',
+        data: {
+            seen: true
+        }
+    });
+
+    var app4 = new Vue({
+        el: '#app-4',
+        data: {
+            todos: [
+                {text: 'Learn JavaScript'},
+                {text: 'Learn vue'},
+                {text: 'Learn css'}
+            ]
+        }
+
+    });
+
+    var app5 = new Vue({
+        el: '#app-5',
+        data: {
+            message: 'hello vuejs'
+        },
+        methods: {
+            reverseMessage: function(){
+                this.message = this.message.split('').reverse().join('')
+            }
+        }
+    });
+
+    var app6 = new Vue({
+        el: '#app-6',
+        data: {
+            message: 'hello vue'
+        }
+    });
+
+    //全局注册组件。要确保在根实例创建之前注册组件。
+    Vue.component('todo-item', {
+        props: ['todo'],
+        template: '<li>{{ todo.text }}</li>'
+    });
+
+    var app7 = new Vue({
+        el: '#app-7',
+        data: {
+            todos: [
+                {text: 'learn js'},
+                {text: 'learn html'},
+                {text: 'learn css'}
+            ]
+        }
+    });
+
+    var app8 = new Vue({
+       el: '#app-8',
+        //局部注册组件
+       components: {
+           'my-component': {
+                template: '<div>局部注册的组件</div>'
+           }
+        }
+    });
+    //vue实例会代理选项对象data对象的所有属性。
+    var data = { a: 1};
+    var vm = new Vue({
+        data : data
+    });
+    console.log(vm.a === data.a); //true
+
+    //vue实例暴露的属性和方法前有$, 与代理的属性区分开
+    var data1 = { b: "vue暴露的属性和方法前有$"};
+    var vm1 = new Vue({
+        el: '#example',
+        data: data1
+    });
+
+    console.log(vm1.$data === data1); //true $data属性就是选项对象里的data对象
+    console.log(vm1.$el === document.getElementById('example')); //true
+
+    //$watch()是vue实例的一个方法。回调函数将在a的值发生改变后执行
+    vm1.$watch('b', function(newVal, oldVal){
+        alert('b的值改变为: '+ data1.b);
+    });
+
+    var vm2 = new Vue({
+       data: {
+           a: 1
+       },
+        //created生命周期钩子, 还有如mouted updated destroyed
+       created: function(){
+           //this 指向调用生命周期钩子的vue实例
+           console.log('a is ' + this.a); // a is 1
+       }
+    });
+
+//v-html 更新元素的innerHTML。 只在可信内容上用，永不用在用户提交的内容上用v-html。会受到xss攻击
+    var vm3 = new Vue({
+        el: '#app8',
+        data: {
+            vhtml: "<div>我是通过v-html指令插入的</div>"
+        }
+    });
+
+
+</script>
+</body>
+</html>

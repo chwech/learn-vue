@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <component-1></component-1>
+</div>
+
+<div id="app1">
+    <component-1></component-1>
+</div>
+
+<div id="app2">
+    <component-2></component-2>
+</div>
+<!--vue warn-->
+<!--<div id="app3">-->
+    <!--component-2为局部注册组件。只在注册组件实例作用中有效-->
+    <!--<component-2></component-2>-->
+<!--</div>-->
+
+<!--table ul ol select等元素限制了能被它包裹的元素。所以在这些元素中使用组件不能得到正确解析。-->
+<!--可以用is特性指定组件。-->
+<table id="app4">
+    <tr is="component-1"></tr>
+</table>
+
+<div id="app5">
+    <component-3></component-3>
+</div>
+<div id="app6">
+    <child message="hello"></child>
+</div>
+
+<div id="app7">
+    <p>{{ total }}</p>
+    <button-counter v-on:increment="incrementTotal"></button-counter>
+    <button-counter v-on:increment="incrementTotal"></button-counter>
+</div>
+<script src="test.js"></script>
+<script>
+
+    //全局注册组件。要在父实例创建之前注册。
+    Vue.component('component-1', {
+        template: '<div>我是全局注册的组件</div>'
+    });
+    var app = new Vue({
+        el: '#app'
+    });
+    var app1 = new Vue({
+       el : '#app1'
+    });
+    //局部注册组件
+    var app2 = new Vue({
+        el: '#app2',
+        components: {
+            'component-2': {
+                template: '<div>我是局部注册的组件</div>'
+            }
+        }
+    });
+//    var app3 = new Vue({
+//        el: '#app3'
+//    });
+
+    var app4 = new Vue({
+        el: '#app4'
+    });
+
+    Vue.component('component-3', {
+       template: '<span>{{ message }}</span>',
+       data: function(){
+           return {
+               message: 'data选项必须为函数,返回一个对象'
+           };
+       }
+    });
+
+    var app5 = new Vue({
+       el: '#app5'
+    });
+
+
+    Vue.component('child', {
+        props: ['message'],
+        template: '<span>{{ message }}</span>'
+    });
+
+    var app6 = new Vue({
+        el: '#app6'
+    });
+
+    Vue.component('button-counter', {
+        template: '<button v-on:click="increment">{{ counter }}</button>',
+        data: function(){
+            return {
+                counter: 0
+            }
+        },
+        methods: {
+            increment: function(){
+                this.counter +=1;
+                this.$emit('increment');
+            }
+        }
+    });
+
+    var app7 = new Vue({
+        el: '#app7',
+        data: {
+            total: 0
+        },
+        methods: {
+            incrementTotal: function(){
+                this.total +=1
+            }
+        }
+    })
+</script>
+</body>
+</html>
